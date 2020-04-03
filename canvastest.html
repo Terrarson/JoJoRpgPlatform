@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<title>Menacing Game</title>
+<html>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+<style>
+.solarized_dark_theme {
+  --light0: #002b36;
+  --light1: #073642;
+  --light2: #586E75;
+  --light3: #657b83;
+  --light4: #839496;
+  --light5: #93A1A1;
+  --light6: #EEE8D5;
+  --light7: #FDF6E3;
+
+  --yellow: #B58900;
+  --orange: #CB4B16;
+  --red: #DC322F;
+  --magenta: #D33682;
+  --violet: #6C71C4;
+  --blue: #268BD2;
+  --cyan: #2AA198;
+  --green: #859900;
+
+  --canvasbg: #073642;
+  --coincolor: #EEE8D5;
+}
+
+ .dark_theme {
+  --light0: black;
+  --light1: #303030;
+  --light2: #606060;
+  --light3: #909009;
+  --light4: #A0A0A0;
+  --light5: #C0C0C0;
+  --light6: #F0F0F0;
+  --light7: white;
+
+  --yellow: yellow;
+  --orange: orange;
+  --red: red;
+  --magenta: magenta;
+  --violet: violet;
+  --blue: blue;
+  --cyan: cyan;
+  --green: green;
+
+  --canvasbg: #303030;
+  --coincolor: #F0F0F0;
+}
+
+.white_room_theme {
+  --light7: black;
+  --light6: #303030;
+  --light5: #606060;
+  --light4: #909009;
+  --light3: #A0A0A0;
+  --light2: #C0C0C0;
+  --light1: #F0F0F0;
+  --light0: white;
+
+  --yellow: yellow;
+  --orange: orange;
+  --red: red;
+  --magenta: magenta;
+  --violet: violet;
+  --blue: blue;
+  --cyan: cyan;
+  --green: green;
+
+  --canvasbg: #303030;
+  --coincolor: #F0F0F0;
+}
+
+body
+{
+  font-family: "open Sans", sans-serif;
+  margin: 0;
+  background-color: var(--light0);
+  transition: background 500ms ease-in-out, color 1000ms ease-in-out;
+}
+.playerinfo
+{
+  background-color: var(--light1);
+  color: var(--light7);
+  border-radius: 0.3em;
+  font-size: 2vh;
+  width: 90%;
+  line-height: 2em;
+  margin:5%;
+  margin-top: 0.3em;
+  text-align: center;
+  margin-bottom: 1px;
+}
+.col1{color: var(--cyan);}
+.col2{color: var(--red);}
+.col3{color: var(--yellow);}
+.col4{color: var(--green);}
+.col5{color: var(--blue);}
+.col6{color: var(--magenta);}
+.col7{color: var(--orange);}
+.col0{color: var(--violet);}
+.colb{color: var(--light7);}
+
+.col1bg{background-color: var(--cyan);}
+.col2bg{background-color: var(--red);}
+.col3bg{background-color: var(--yellow);}
+.col4bg{background-color: var(--green);}
+.col5bg{background-color: var(--blue);}
+.col6bg{background-color: var(--magenta);}
+.col7bg{background-color: var(--orange);}
+.col0bg{background-color: var(--violet);}
+.colbbg{background-color: var(--light0);}
+
+.playername
+{
+  float:left;
+  width: 40%;
+  border-right: 3px dashed var(--light2);
+}
+.dice
+{
+  float:left;
+  width:15%;
+
+}
+.manage
+{
+  float:left;
+  width:40%;
+  border-right: 3px dashed var(--light2);
+}
+#info
+{
+  width: 48%;
+  text-align: left;
+}
+
+#message
+{
+  display:none;
+  position:absolute;
+  text-align:center;
+  width:100%;
+  border-radius: 10px;
+  line-height: 1.3em;
+  margin: 0.2em;
+  background-color: rgba(0,0,0,0.6);
+  color: white;
+}
+
+#overlay1
+{
+  position: fixed;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #474443;
+  z-index: 2;
+  cursor: pointer;
+  background-image: url("http://192.168.1.38/dio.jpeg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 80% 50%;
+  cursor: default;
+}
+
+#overlay2
+{
+  font-size: 2vh;
+  position: fixed;
+  text-align: center;
+  color: var(--light6);
+  width: 80%;
+  height: 80%;
+  top: 10%;
+  left: 10%;
+  border-radius: 0.3em;
+  background-color: var(--light1);
+  z-index: 2;
+  cursor: default;
+  -webkit-box-shadow: 0px 0px 80px 16px var(--light4);
+  -moz-box-shadow: 0px 0px 80px 16px var(--light4);
+  box-shadow: 0px 0px 80px 16px var(--light4);
+}
+
+#overlay3
+{
+  position: fixed;
+  /*display: blocknone*/;
+  text-align: center;
+  width: 100%;
+  height: auto;
+  padding: 0.5em;
+  top: 20%;
+  background-color: var(--light1);
+  z-index: 3;
+  cursor: default;
+  -webkit-box-shadow: 0px 0px 80px 16px var(--light4);
+  -moz-box-shadow: 0px 0px 80px 16px var(--light4);
+  box-shadow: 0px 0px 80px 16px var(--light4);
+  opacity: 100%;
+}
+#overlay3background
+{
+  position: fixed;
+  /*display: blocknone*/;
+  width: 100%;
+  height: 100%;
+  background-color: var(--light0);
+  opacity: 95%;
+  z-index: 2;
+}
+
+#text
+{
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 5vh;
+  color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  line-height: 100px;
+}
+.menacingbutton
+{
+  border-color: var(--light0);
+  height: 1.5em;
+  background-color: var(--light0);
+  color: var(--light5);
+  border-radius: 0.3em;
+  font-size: 4vh;
+  padding:0.1em;
+  margin: 0.2em;
+  -o-transition:.5s;
+  -ms-transition:.5s;
+  -moz-transition:.5s;
+  -webkit-transition:.5s;
+}
+.menacingbutton:hover
+{
+  background-color: var(--light2);
+  color: var(--light7);
+  border-color: var(--light5);
+}
+
+.textinput {
+  border-radius: 10px;
+  height: 7vh;
+  background-color: var(--light1);
+  color: var(--light6);
+  font-size: 5vh;
+  margin:0.1em;
+}
+.smallertextinput {
+  height: 4vh;
+  font-size: 3vh
+}
+#diceselectmenu
+{
+  color:var(--light6);
+  background-color: var(--light1);
+  border-radius: 0.3em;
+  font-size: 2vh;
+  width: 90%;
+  line-height: 1.3em;
+  margin:5%;
+  margin-top: 6px;
+  text-align: center;
+  margin-bottom: 1px;
+}
+.smallerbutton
+{
+  border-radius: 0.3em;
+  font-size: 3vh;
+  margin:0.05em;
+  width: auto;
+  -o-transition:.1s;
+  -ms-transition:.1s;
+  -moz-transition:.1s;
+  -webkit-transition:.1s;
+}
+.colorselect
+{
+  border-radius: 0.3em;
+  margin-right: 0.1em;
+  width:2em;
+  height:2.4em;
+  line-height:2.4em;
+  float:left;
+}
+.coin {
+  font-size: 2vh;
+  top: 0;
+  left: 0;
+  border:3px solid var(--coincolor);
+  border-radius: 1em;
+  position: fixed;
+  /*background-color:var(--light0);*/
+  width: 2em;
+  height: 2em;
+  color:var(--coincolor);
+  line-height:1em;
+  margin:0;
+  padding:0;
+}
+.coininfo1{
+  color:var(--coincolor);
+  font-size: 2vh;
+  margin-left:5px;
+  position:fixed;
+  margin-left:2.5em;
+  width:auto;
+  white-space:nowrap
+  top: 0%;
+  left: 0%;
+}
+.coininfo2
+{margin-top:1.1em;}
+
+</style>
+
+    <body onload="init()" class="dark_theme" id="body">
+      <div id="overlay1">
+
+          <div id="text">
+            <input id="usrname" class="textinput" type="text" placeholder="Imię"><br>
+            <input id="plname" class="textinput" type="text" placeholder="Nazwa postaci"><br>
+            <input id="key" class="textinput" type="text" placeholder="Klucz"><br>
+            <input class="menacingbutton" type="button" value="Do you believe in Gravity?" onclick="loginrequest()">
+            <br><div  id = "message"></div>
+          </div>
+        </span>
+      </div>
+      <!--<div id="overlay2" style="display:none">
+          <input type="button" class="menacingbutton smallerbutton" style="width:100%" value="Close" onclick="closePhotos()">
+          <div style="width:20%;float:left;padding-top:0.3em;">
+            <div onclick="$('#image').attr('src','https://i.ytimg.com/vi/_ZAxYX4KOuc/maxresdefault.jpg');">Linking</div><br>
+            Park
+          </div>
+          <div id="image" style="width:80%;float:left;padding-top:0.3em;">
+            <img width="90%" height="90%" src="http://192.168.1.38/dio.jpeg">
+          </div>
+        </div style="clear:both"></div>
+      </div>-->
+      <div id="overlay3background" style="display:none">
+        <div id="overlay3">
+          <input id="text1" class="textinput smallertextinput" type="text" placeholder="Text1"><br>
+          <input id="text2" class="textinput smallertextinput" type="text" placeholder="Text2"><br>
+          <input type="button" class="menacingbutton smallerbutton" value="Save" onclick="hideEditDialog(1)">
+          <input type="button" class="menacingbutton smallerbutton" value="Cancel" onclick="hideEditDialog(0)">
+        </div>
+      </div>
+      <div id="container" width="50%" style="float:left">
+        <canvas id="can" width="50%" height="600px" style="border:2px solid;background-color:var(--canvasbg);"></canvas>
+      </div>
+
+      <div id="info" style="float:left;">
+        <div id="diceselectmenu">
+          <input type="button" class="menacingbutton smallerbutton" onclick="newEntityRequest(0)" value="Add friendly entity">
+          <input type="button" class="menacingbutton smallerbutton" onclick="newEntityRequest(1)" value="Add entity">
+        </div>
+        <span id="players">
+      </span>
+      <span id="foes">
+      </span>
+        <div id="diceselectmenu">
+          <input type="button" class="menacingbutton smallerbutton" value="1k4" onclick="dice(4)">
+          <input type="button" class="menacingbutton smallerbutton" value="1k6" onclick="dice(6)">
+          <input type="button" class="menacingbutton smallerbutton" value="1k8" onclick="dice(8)">
+          <input type="button" class="menacingbutton smallerbutton" value="1k10" onclick="dice(10)">
+          <input type="button" class="menacingbutton smallerbutton" value="1k12" onclick="dice(12)">
+          <input type="button" class="menacingbutton smallerbutton" value="1k20" onclick="dice(20)">
+          <input type="button" class="menacingbutton smallerbutton" value="1k100" onclick="dice(100)">
+        </div>
+        <div id="diceselectmenu">
+          <!--<input type="button" class="menacingbutton smallerbutton" value="Shared" onclick="showPhotos()">-->
+          <input type="button" class="menacingbutton smallerbutton" value="Solar Theme" onclick="changeTheme(0)">
+          <input type="button" class="menacingbutton smallerbutton" value="Dark Theme" onclick="changeTheme(1)">
+          <input type="button" class="menacingbutton smallerbutton" value="White Room Theme" onclick="changeTheme(2)">
+        </div>
+        <div id="diceselectmenu" style="text-align:left">
+          <div style="float:left">
+            <div class="colorselect" style="background:blue;" id="blue" onclick="color(this)"></div>
+            <div class="colorselect" style="background:red;" id="red" onclick="color(this)"></div>
+            <div class="colorselect" style="background:yellow;" id="yellow" onclick="color(this)"></div>
+            <div class="colorselect" style="background:green;" id="green" onclick="color(this)"></div>
+            <div class="colorselect" style="background:black;" id="black" onclick="color(this)"></div>
+            <div class="colorselect" style="background:orange;" id="orange" onclick="color(this)"></div>
+            <div class="colorselect" style="background:white;" id="white" onclick="color(this)"></div>
+            <div class="colorselect" style="background:#202020;width:auto;color:var(--coincolor)" id="gray" onclick="color(this)">Gumka</div>
+          </div>
+          <div style="float:left">
+            <div class="colorselect" style="width:auto;background:gray; width:5em;color:var(--coincolor)" id="rectangle" onclick="color(this)">Rectangle</div>
+            <input type="range" min="1" max="20" value="4" class="slider" id="range" onchange="updateSlider(this.value)">
+          </div>
+          <div id="boardOptions" style="clear:both"></div><br>
+            <input type="button" class="menacingbutton smallerbutton" value="Clear" onclick="erase()">
+            <input type="button" class="menacingbutton smallerbutton" value="Share" onclick="save()">
+            <input type="button" class="menacingbutton smallerbutton" value="Save Backup" onclick="sbackup()">
+            <input type="button" class="menacingbutton smallerbutton" value="Load Backup" onclick="lbackup()">
+            <input type="button" class="menacingbutton smallerbutton" value="Request Refresh" onclick="refresh()">
+        </div>
+        <span id="coins">
+          <img id='m1' src='http://192.168.1.38/betterMenacing.gif' style='position:fixed;top:70%;left:2%;width:7%;display:none'></img>
+          <img id='m2' src='http://192.168.1.38/betterMenacing.gif' style='position:fixed;top:3%;left:46%;width:7%;display:none'></img>
+        </span>
+      </div>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script type="text/javascript">
+        const socket = io("http://192.168.1.38:8080");
+        function refresh() {
+          socket.emit("refresh",0);
+        }
+        var menacingState = 0;
+        function menacingEffect() {
+          if(menacingState == 0) {
+            menacingState = 1;
+            socket.emit("menacingRequest", 0);
+          }
+          else {
+            menacingState = 0;
+            socket.emit("menacingRequest", 1);
+          }
+        }
+
+        socket.on("gmApproved", function(data) {
+          $("#coins").append('<input type="button" class="menacingbutton smallerbutton" value="Menacing" onclick="menacingEffect()">');
+        });
+
+        socket.on("startMenacingEffect", function(data) {
+          $("#m1").fadeIn(2000);
+          $("#m2").fadeIn(2000);
+        });
+        socket.on("stopMenacingEffect", function(data) {
+          $("#m1").fadeOut(2000);
+          $("#m2").fadeOut(2000);
+        });
+
+        function changeTheme(vall) {
+          if(vall == 1) {
+            $("#body").removeClass();
+            $("#body").addClass("dark_theme");
+          } else if(vall == 0) {
+            $("#body").removeClass();
+            $("#body").addClass("solarized_dark_theme");
+          } else {
+            $("#body").removeClass();
+            $("#body").addClass("white_room_theme");
+          }
+        }
+        var overlay2open = false;
+        function newEntityRequest(vall) {
+            socket.emit("entityrequest", vall);
+        }
+
+        socket.on("updatedPosition", function(data) {
+          $("#"+data[0]).css("top",data[1]).css("left",data[2]);
+          $("#"+data[0]+"a").css("top",data[1]).css("left",data[2]);
+          $("#"+data[0]+"b").css("top",data[1]).css("left",data[2]);
+        });
+
+        socket.on("syncronize", function(data) {
+          for(let j = 0; j < 8; j++) {
+            if(data[j][0] !== "0" && $("#coinf"+j).length === 0) {
+                addEntity(j);
+                $("#coinf"+j).css("top",data[j][1]).css("left",data[j][2]);
+                $("#f"+j+"a").html(data[j][3]);
+                $("#coinf"+j+"a").html(data[j][5]).css("top",data[j][1]).css("left",data[j][2]);
+                $("#f"+j+"b").html(data[j][4]);
+                $("#coinf"+j+"b").html(data[j][6]).css("top",data[j][1]).css("left",data[j][2]);
+
+            }
+            if(data[j+8][0] !== "0" && $("#coinp"+j).length === 0) {
+              if(data[j+8][0] == "1") {
+                addFriendlyEntity(j);
+                $("#p"+j+"c").html(data[j+8][7]);
+              }
+              else {
+                addPlayerEntity([j,"",""])
+              }
+              $("#coinp"+j).css("top",data[j+8][1]).css("left",data[j+8][2]);
+              $("#p"+j+"a").html(data[j+8][3]);
+              $("#coinp"+j+"a").html(data[j+8][5]).css("top",data[j+8][1]).css("left",data[j+8][2]);
+              $("#p"+j+"b").html(data[j+8][4]);
+              $("#coinp"+j+"b").html(data[j+8][6]).css("top",data[j+8][1]).css("left",data[j+8][2]);
+            }
+          }
+        });
+
+        function addFriendlyEntity(temp) {
+          $("#players").append("<div class='playerinfo col"+temp+"' id='p"+temp+"'><div id='p"+temp+"a' class='playername' onclick='showEditDialog(&#34p"+temp+"&#34)'>Jurgend</div><div id='p"+temp+"b' class='manage' onclick='showEditDialog(&#34p"+temp+"&#34)'>White Room</div><div id='p"+temp+"c' class='dice' onclick='removeFriend("+temp+")'>Delete</div><div style='clear:both'></div></div>");
+          $("#coins").append('<div id="coinp'+temp+'" class="coin col'+temp+'bg" style="top:0;"></div><div style="top:0;" id="coinp'+temp+'a" class="coininfo1" onclick="showEditDialog(&#34coinp'+temp+'&#34)">Jurgend</div><div style="top:0;" id="coinp'+temp+'b" class="coininfo1 coininfo2" onclick="showEditDialog(&#34coinp'+temp+'&#34)"></div>');
+          dragElement(document.getElementById("coinp"+temp));
+        }
+
+        function addPlayerEntity(temp) {
+          $("#players").append("<div class='playerinfo col"+temp[0]+"' id='p"+temp[0]+"'><div id='p"+temp[0]+"a' class='playername' onclick='showEditDialog(&#34p"+temp[0]+"&#34)'>"+temp[2]+"</div><div id='p"+temp[0]+"b' class='manage' onclick='showEditDialog(&#34p"+temp[0]+"&#34)'>"+temp[1]+"</div><div id='p"+temp[0]+"c' class='dice'>-</div><div style='clear:both'></div></div>");
+          $("#coins").append('<div id="coinp'+temp[0]+'" class="coin col'+temp[0]+'bg" style="top:0;"></div><div style="top:0;" id="coinp'+temp[0]+'a" class="coininfo1" onclick="showEditDialog(&#34coinp'+temp[0]+'&#34)">'+temp[2]+'</div><div style="top:0;" id="coinp'+temp[0]+'b" class="coininfo1 coininfo2" onclick="showEditDialog(&#34coinp'+temp[0]+'&#34)">'+temp[1]+'</div>');
+          dragElement(document.getElementById("coinp"+temp[0]+""));
+        }
+
+        socket.on("newFriendlyEntity", function(temp) {
+          addFriendlyEntity(temp);
+        });
+
+        socket.on("newPlayerEntity", function(temp) {
+          addPlayerEntity(temp);
+        });
+
+        function addEntity(temp)
+        {
+          $("#foes").append("<div class='playerinfo colb' id='f"+temp+"'><div id='f"+temp+"a' class='playername' onclick='showEditDialog(&#34f"+temp+"&#34)'>Jurgend</div><div id='f"+temp+"b' class='manage' onclick='showEditDialog(&#34f"+temp+"&#34)'>White Room</div><div id='f"+temp+"c' class='dice' onclick='removeFoe("+temp+")'>Delete</div><div style='clear:both'></div></div>");
+          $("#coins").append('<div id="coinf'+temp+'" class="coin colbbg" style="top:0;"></div><div id="coinf'+temp+'a" class="coininfo1" style="top:0;" onclick="showEditDialog(&#34coinf'+temp+'&#34)">Jurgend</div><div style="top:0;" id="coinf'+temp+'b" class="coininfo1 coininfo2" onclick="showEditDialog(&#34coinf'+temp+'&#34)">[WR]</div>');
+          dragElement(document.getElementById("coinf"+temp+""));
+        }
+
+        socket.on("newEntity", function(temp) {
+          addEntity(temp);
+        });
+
+        socket.on("labelUpdated", function(data) {
+          $("#"+data[0]+"a").html(data[1]);
+          $("#"+data[0]+"b").html(data[2]);
+        });
+
+        socket.on("removeFriendlyEntity", function(data) {
+          $("#p"+data).remove();
+          $("#coinp"+data).remove();
+          $("#coinp"+data+"a").remove();
+          $("#coinp"+data+"b").remove();
+        });
+        socket.on("removeEntity", function(data) {
+          $("#f"+data).remove();
+          $("#coinf"+data).remove();
+          $("#coinf"+data+"a").remove();
+          $("#coinf"+data+"b").remove();
+        });
+
+        function removeFoe(id) {
+          socket.emit("removeFoe", id);
+        }
+        function removeFriend(id) {
+          socket.emit("removeFriend", id);
+        }
+
+        function updateSlider(strokeSize) {
+          y = strokeSize;
+        }
+
+        var backup;
+
+        function sbackup() {
+          backup = canvas.toDataURL();
+        }
+
+        function lbackup() {
+          newtemp = new Image;
+          resetBoard();
+          newtemp.src = backup;
+          setTimeout(() => {ctx.src = ctx.drawImage(newtemp,0,0,w,h);}, 100);
+        }
+        var tempIdHandler;
+        function showEditDialog(num) {
+          tempIdHandler = num;
+          $("#overlay3background").fadeIn(100);
+          $("#text1").val($("#"+num+"a").html());
+          $("#text2").val($("#"+num+"b").html());
+        }
+
+        function hideEditDialog(param) {
+          if(param == 1) {
+            socket.emit("label",[tempIdHandler,$("#text1").val(),$("#text2").val()]);
+          }
+          $("#overlay3background").fadeOut(100);
+        }
+        /*
+        function showPhotos() {
+          //alert("g");
+          if(overlay2open == false) {
+            $("#overlay2").fadeIn(150).css("top","10%").css("left","10%");
+            overlay2open = true;
+          }
+          else {
+            $("#overlay2").fadeOut(150);
+            overlay2open = false;
+          }
+        }
+
+        function closePhotos() {
+          //alert("g");
+          $("#overlay2").fadeOut(150);
+          overlay2open = false;
+        }
+        */
+        function dragElement(elmnt) {
+          var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0, parenteda, parentedb;
+          if (document.getElementById(elmnt.id + "header")) {
+            // if present, the header is where you move the DIV from:
+            document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+          } else {
+            // otherwise, move the DIV from anywhere inside the DIV:
+            elmnt.onmousedown = dragMouseDown;
+          }
+          parenteda = document.getElementById(elmnt.id+"a");
+          parentedb = document.getElementById(elmnt.id+"b");
+          var lastid = "";
+          var tempx, tempy;
+          function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            lastid = e.target.id;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+          }
+
+          function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            //tempy = elmnt.style.top = ((elmnt.offsetTop - pos2) / window.innerHeight * 100) +"%";
+            //tempx = elmnt.style.left = ((elmnt.offsetLeft - pos1) / window.innerWidth * 100) +"%";
+            tempy = (elmnt.offsetTop - pos2);
+            tempx = (elmnt.offsetLeft - pos1);
+            elmnt.style.top = tempy+"px";
+            elmnt.style.left = tempx+"px";
+            parenteda.style.top = tempy+"px";
+            parenteda.style.left = tempx+"px";
+            parentedb.style.top = tempy+"px";
+            parentedb.style.left = tempx+"px";
+          }
+
+          function closeDragElement() {
+            socket.emit("drag", [lastid,(tempy/ window.innerHeight*100)+"%",(tempx/window.innerWidth*100)+"%"]);
+            document.onmouseup = null;
+            document.onmousemove = null;
+          }
+        }
+
+        function resetBoard() {
+          ctx.clearRect(0, 0, w, h);
+        }
+
+        window.onresize = resizeBoard;
+
+        function resizeBoard() {
+          ctx.canvas.width  = window.innerWidth/2-4;
+          ctx.canvas.height = window.innerHeight-4;
+          w = canvas.width;
+          h = canvas.height;
+        }
+
+        function dice(size) {
+          socket.emit("dice", size);
+        }
+
+        socket.on("diceRolled", function(data){
+          $("#p"+data[0]+"c").html(data[1]);
+        });
+
+        var playerid = 0;
+      socket.on("refreshCanvas", function(data){
+        (img.src = data);
+        resetBoard();
+        setTimeout(() => {  ctx.src = ctx.drawImage(img,0,0,w,h); }, 100);
+        //ctx.src = ctx.drawImage(img,0,0);
+
+    });
+
+        var img = new Image;
+        var canvas, ctx, flag = false,
+            prevX = 0,
+            currX = 0,
+            prevY = 0,
+            currY = 0,
+            dot_flag = false;
+        var mode = 0;
+        var fillr = false;
+        var x = "black",
+            y = 2;
+
+        function init() {
+            canvas = document.getElementById('can');
+            ctx = canvas.getContext("2d");
+            resizeBoard();
+            resetBoard();
+
+            canvas.addEventListener("mousemove", function (e) {
+                findxy('move', e)
+            }, false);
+            canvas.addEventListener("mousedown", function (e) {
+                findxy('down', e)
+            }, false);
+            canvas.addEventListener("mouseup", function (e) {
+                findxy('up', e)
+            }, false);
+            canvas.addEventListener("mouseout", function (e) {
+                findxy('out', e)
+            }, false);
+        }
+
+        function color(obj) {
+            switch (obj.id) {
+                case "green":
+                    x = "green";
+                    break;
+                case "blue":
+                    x = "blue";
+                    break;
+                case "red":
+                    x = "red";
+                    break;
+                case "yellow":
+                    x = "yellow";
+                    break;
+                case "orange":
+                    x = "orange";
+                    break;
+                case "black":
+                    x = "black";
+                    break;
+                case "white":
+                    x = "white";
+                    break;
+                case "gray":
+                    x= "#073642";
+                    break;
+                case "rectangle":
+                    if(mode == 0) {
+                      $("#rectangle").html("Pen");
+                      mode = 1;}
+                    else {
+                      $("#rectangle").html("Rectangle");
+                      mode = 0;
+                    }
+                    break;
+            }
+        }
+
+        function draw() {
+            ctx.beginPath();
+            ctx.moveTo(prevX, prevY);
+            ctx.lineTo(currX, currY);
+            ctx.strokeStyle = x;
+            ctx.lineWidth = y;
+            ctx.stroke();
+            ctx.closePath();
+        }
+
+        function erase() {
+          resetBoard();
+        }
+
+        function save() {
+            var dataURL = canvas.toDataURL();
+            socket.emit("canvas", dataURL);
+            //document.getElementById("canvasimg").src = dataURL;
+            //document.getElementById("canvasimg").style.display = "inline";
+        }
+
+        function findxy(res, e) {
+            if (res == 'down') {
+                prevX = currX;
+                prevY = currY;
+                currX = e.clientX - canvas.offsetLeft;
+                currY = e.clientY - canvas.offsetTop;
+
+                flag = true;
+                dot_flag = true;
+                if (dot_flag) {
+                    ctx.beginPath();
+                    ctx.fillStyle = x;
+                    ctx.fillRect(currX, currY, 2, 2);
+                    ctx.closePath();
+                    dot_flag = false;
+                    if(mode == 1 && !fillr) {
+                      prevX = currX;
+                      prevY = currY;
+                      fillr = true;
+                    }
+                    else if(mode == 1 && fillr){
+                      ctx.beginPath();
+                      ctx.fillStyle = x;
+                      ctx.fillRect(currX -2, currY -2, prevX - currX + 4, prevY - currY + 4);
+                      ctx.closePath();
+                      fillr = false;
+
+                      ctx.beginPath();
+                      ctx.moveTo(prevX, prevY);
+                      ctx.lineTo(prevX, currY);
+                      ctx.lineTo(currX, currY);
+                      ctx.lineTo(currX, prevY);
+                      ctx.lineTo(prevX, prevY);
+                      ctx.strokeStyle = "black";
+                      ctx.lineWidth = 8;
+                      ctx.stroke();
+                      ctx.closePath();
+                    }
+                }
+            }
+            if (res == 'up' || res == "out") {
+                flag = false;
+            }
+            if (res == 'move' && mode == 0) {
+                if (flag) {
+                    prevX = currX;
+                    prevY = currY;
+                    currX = e.clientX - canvas.offsetLeft;
+                    currY = e.clientY - canvas.offsetTop;
+                    draw();
+                }
+            }
+        }
+
+        var loginLock = false;
+
+        function loginrequest() {
+            if(!loginLock){
+            loginLock = true;
+            let usrName = $("#usrname").val();
+            let plName = $("#plname").val();
+            let key = $("#key").val();
+            if(usrName == "" || plName == "" || key == "") {
+              $("#message").html("There is an empty field").fadeIn(2000).fadeOut(3000);
+            }
+            else {
+              socket.emit("loginrequest", [usrName, plName, key]);
+            }
+            setTimeout(() => {loginLock = false}, 500);
+          }
+        }
+
+        socket.on("accessGranted", function(data) {
+          if(data == "1" || data == "1337")
+            $("#overlay1").fadeOut(500);
+          else if(data == "-4")
+            $("#message").html("Key not found").fadeIn(2000).fadeOut(3000);
+          else if(data == "-5")
+            $("#message").html("Slots are already occupied").fadeIn(2000).fadeOut(3000);
+        });
+        </script>
+    </html>
